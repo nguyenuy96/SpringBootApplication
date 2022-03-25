@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
+    <encoder>
+      <pattern>%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS, UTC}) [%X{serviceName}] %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n
+      </pattern>
+    </encoder>
+    <withJansi>true</withJansi>
+  </appender>
+
+  <appender name="OTEL" class="io.opentelemetry.instrumentation.logback.v1_0.OpenTelemetryAppender">
+      <appender-ref ref="STDOUT" />
+  </appender>
+
+  <springProfile name="dev,sit,uat">
+    <logger name="com.app" level="debug" />
+  </springProfile>
+
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+  </root>
+</configuration>
