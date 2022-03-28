@@ -53,7 +53,12 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
 configurations.testImplementation {
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+}
+
+test {
+    useJUnitPlatform()
 }
 

@@ -34,7 +34,10 @@ com/app/entity/UrlConfigurationEntity.java
  com.app.entity.UrlConfigurationEntity
 com/app/model/response/BaseResponse.java
  com.app.model.response.BaseResponse
+com/app/model/response/ProfileResponseListModel.java
+ com.app.model.response.ProfileResponseListModel
 com/app/service/impl/ProfileServiceImpl.java
  com.app.service.impl.ProfileServiceImpl
 com/app/service/BaseService.java
  com.app.service.BaseService
+ com.app.service.BaseService$1

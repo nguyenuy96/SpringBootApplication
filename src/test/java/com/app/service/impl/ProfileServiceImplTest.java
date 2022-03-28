@@ -1,21 +1,25 @@
 package com.app.service.impl;
 
 import com.app.model.BusinessException;
-import com.app.service.ProfileService;
 import java.util.stream.Stream;
+import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @ExtendWith(MockitoExtension.class)
 class ProfileServiceImplTest {
 
-    @Autowired
-    private ProfileService profileService;
+    @InjectMocks
+    private ProfileServiceImpl profileService;
+
+    @Mock
+    private HttpServletRequest request;
 
     @Test
     void test_Get_Profile() throws BusinessException {
