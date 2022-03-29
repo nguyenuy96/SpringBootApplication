@@ -23,25 +23,24 @@ dependencies {
     // Spring
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+    //Database
     implementation 'org.postgresql:postgresql'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 
     // Lombok
     implementation "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    //Swagger
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
 
     //Flyway - Db migration
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: '6.2.3'
+    implementation 'org.flywaydb:flyway-core:6.2.3'
 
     //Gson
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     //Security
-    implementation 'org.springframework.security:spring-security-oauth2-client'
+//    implementation 'org.springframework.security:spring-security-oauth2-client'
 
     //Mockito
     testImplementation 'org.mockito:mockito-core:3.9.0'
@@ -49,9 +48,15 @@ dependencies {
     //Unit test
     testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
+    //Swagger
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    compile 'io.springfox:springfox-swagger2:3.0.0'
+
+    compile 'org.apache.commons:commons-text:1.9'
+
     runtimeOnly 'io.opentelemetry.instrumentation:opentelemetry-logback-1.0:0.16.1'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'junit:junit:4.12'
 }
 
 configurations.testImplementation {

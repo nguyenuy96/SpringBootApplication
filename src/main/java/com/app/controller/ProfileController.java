@@ -1,18 +1,24 @@
 package com.app.controller;
 
 import com.app.model.BusinessException;
+import com.app.model.request.CreateProfileRequest;
 import com.app.model.response.BaseResponse;
+import com.app.model.response.CreateProfileResponse;
+import com.app.model.response.PaginationResponse;
+import com.app.model.response.ProfileResponseListModel;
 import com.app.model.response.ProfileResponseModel;
 import com.app.model.response.ResponseUtils;
 import com.app.service.ProfileService;
-import com.google.gson.Gson;
 import java.net.http.HttpHeaders;
-import java.util.List;
+import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,24 +33,41 @@ public class ProfileController {
     @Autowired
     private ResponseUtils responseUtils;
 
-    private final Logger log = LogManager.getLogger(getClass());
     @GetMapping
     public BaseResponse<ProfileResponseModel> getProfile(@RequestHeader(required = false) HttpHeaders httpHeader,
                                                          @RequestParam("id") Long id) throws BusinessException {
-        log.info("Start get profile with id={}", id);
         ProfileResponseModel data = profileService.getProfileById(id);
-        log.info("Profile result: {}", new Gson().toJson(data));
-        log.info("End get profile process");
         return responseUtils.response(data, null, null);
     }
 
+    /**
+     *
+     * @param page
+     * @param size
+     * @param sortType
+     * @param sortField fields are used to sort and it must be snake case
+     * @return
+     * @throws BusinessException
+     */
     @GetMapping("/findAll")
-    public BaseResponse<List<ProfileResponseModel>> getAllProfiles() throws BusinessException {
-        log.info("START::getProfiles");
-        List<ProfileResponseModel> data = profileService.getProfiles();
-        log.info("Profile results: {}", new Gson().toJson(data));
-        log.info("END::getProfiles");
-
+    public BaseResponse<PaginationResponse<ProfileResponseModel>> getAllProfiles(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sortType", required = false) Sort.Direction sortType,
+            @RequestParam(value = "sortField", required = false) String sortField
+    ) throws BusinessException {
+        PaginationResponse<ProfileResponseModel> data = profileService.getProfiles(page, size, sortType, sortField);
         return responseUtils.response(data, null, null);
+    }
+
+    @GetMapping("/call-rest")
+    public BaseResponse<ProfileResponseListModel> getProfilesByCallRest() throws BusinessException {
+        ProfileResponseListModel data = profileService.getProfilesByCallRest();
+        return responseUtils.response(data, null, null);
+    }
+
+    @PostMapping
+    public BaseResponse<CreateProfileResponse> addNewProfile(@Valid @RequestBody CreateProfileRequest request) {
+        return responseUtils.response(new CreateProfileResponse(), null, null);
     }
 }
