@@ -1,4 +1,4 @@
-BaseServiceTest.java
- BaseServiceTest
+com/app/service/BaseServiceTest.java
+ com.app.service.BaseServiceTest
 com/app/service/impl/ProfileServiceImplTest.java
  com.app.service.impl.ProfileServiceImplTest

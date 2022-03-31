@@ -3,7 +3,6 @@ package com.app.service;
 import com.app.model.BusinessException;
 import com.app.model.CommonModel;
 import com.app.model.response.PaginationResponse;
-import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.text.CaseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +26,9 @@ import org.springframework.web.client.RestTemplate;
 public class BaseService {
     @Autowired
     private HttpServletRequest request;
+    //Fixme: if call ssl, refer to https://www.baeldung.com/httpclient-ssl#resttemplate_ssl-1
+    @Autowired
+    private RestTemplate template;
 
     private static final String ACCESS_TOKEN = "token";
 
@@ -48,7 +51,6 @@ public class BaseService {
 
         HttpEntity<R> requestEntity = getRestTemplateHeader(httpMethod, requestBody);
 
-        RestTemplate template = new RestTemplate();
         ResponseEntity<S> response = template.exchange(hostUrl, httpMethod, requestEntity,  responseType, uriVariables);
         return response.getBody();
     }

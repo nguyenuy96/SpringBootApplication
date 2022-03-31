@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Validated
+//@Validated
 @RequestMapping("/profile")
 public class ProfileController {
     @Autowired
@@ -68,6 +68,7 @@ public class ProfileController {
 
     @PostMapping
     public BaseResponse<CreateProfileResponse> addNewProfile(@Valid @RequestBody CreateProfileRequest request) {
-        return responseUtils.response(new CreateProfileResponse(), null, null);
+        CreateProfileResponse responseBody = profileService.createProfile(request);
+        return responseUtils.response(responseBody, null, null);
     }
 }

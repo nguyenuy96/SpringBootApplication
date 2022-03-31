@@ -2,12 +2,15 @@ package com.app.service.impl;
 
 import com.app.entity.ProfileEntity;
 import com.app.model.BusinessException;
+import com.app.model.request.CreateProfileRequest;
+import com.app.model.response.CreateProfileResponse;
 import com.app.model.response.PaginationResponse;
 import com.app.model.response.ProfileResponseListModel;
 import com.app.model.response.ProfileResponseModel;
 import com.app.repository.ProfileRepository;
 import com.app.service.BaseService;
 import com.app.service.ProfileService;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -39,11 +42,17 @@ public class ProfileServiceImpl extends BaseService implements ProfileService{
 
     @Override
     public ProfileResponseModel getProfileById(Long id) throws BusinessException {
-        return callREST(getProfileUrl, HttpMethod.GET, null, ProfileResponseModel.class, null);
+        return callREST(getProfileUrl, HttpMethod.GET, null, ProfileResponseModel.class, new HashMap<>());
     }
 
     @Override
     public ProfileResponseListModel getProfilesByCallRest() throws BusinessException {
         return callREST(getGetProfilesUrl, HttpMethod.GET, null, ProfileResponseListModel.class, null);
+    }
+
+    @Override
+    public CreateProfileResponse createProfile(CreateProfileRequest request) {
+        ProfileEntity profileEntity = profileRepository.save(CreateProfileRequest.convert2ProfileEntity(request));
+        return CreateProfileResponse.convertFromProfileEntity(profileEntity);
     }
 }
